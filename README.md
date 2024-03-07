@@ -1,0 +1,2 @@
+# AnalyticsEventGeneratorSamples
+Contains samples for AnalyticsEventGenerator project
