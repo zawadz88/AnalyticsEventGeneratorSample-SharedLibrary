@@ -27,6 +27,13 @@
             "tasks": [
                 "podInstall"
             ],
+        },
+        {
+            "name": "Gradle podPublishReleaseXCFramework",
+            "type": "gradle",
+            "tasks": [
+                "podPublishReleaseXCFramework"
+            ]
         }
     ]
 }

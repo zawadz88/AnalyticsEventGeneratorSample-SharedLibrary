@@ -4,7 +4,7 @@ Pod::Spec.new do |spec|
     spec.homepage                 = 'https://github.com/zawadz88/AnalyticsEventGeneratorSample-SharedLibrary'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
-    spec.license                  = ''
+    spec.license                  = 'MIT'
     spec.summary                  = 'An example of using a shared library for analytics'
     spec.vendored_frameworks      = 'build/cocoapods/framework/SharedAnalyticsLibrary.framework'
     spec.libraries                = 'c++'
