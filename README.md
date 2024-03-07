@@ -4,7 +4,7 @@ This contains a sample library that uses the AnalyticsEventGenerator plugin to g
 them to a mock backend.
 
 The library artifacts are published to Github Packages (Maven & NPM) and as a Cocoapod so that it can be used by
-separate Android, iOS & Web projects.
+separate [Android](https://github.com/zawadz88/AnalyticsEventGeneratorSample-AndroidApp), [iOS](https://github.com/zawadz88/AnalyticsEventGeneratorSample-iOSApp) & [Web](https://github.com/zawadz88/AnalyticsEventGeneratorSample-ReactApp) projects.
 
 To build locally execute:
 
