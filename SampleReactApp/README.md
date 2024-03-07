@@ -4,13 +4,14 @@ In order to build the package you need to make sure that you authenticate to Git
 in case it's a private
 repository: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-with-a-personal-access-token
 E.g. create an `~/.npmrc` with:
+
 ```
 //npm.pkg.github.com/:_authToken=[YOUR PERSONAL GITHUB TOKEN]
 ```
 
 To install needed NPM packages locally execute `yarn install`.
 
-Then to run locally execute `yarn webpack serve`.
+Then to run locally execute `yarn webpack serve --mode development`.
 
 ### Using local version of shared-analytics-library
 
