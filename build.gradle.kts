@@ -60,7 +60,7 @@ kotlin {
 
     cocoapods {
         summary = "An example of using a shared library for analytics"
-        homepage = "https://github.com/zawadz88/AnalyticsEventGeneratorSamples"
+        homepage = "https://github.com/zawadz88/AnalyticsEventGeneratorSample-SharedLibrary"
         version = libs.versions.sharedAnalyticsLibrary.get()
         ios.deploymentTarget = "16.0"
         framework {
@@ -132,7 +132,7 @@ npmPublish {
                 }
                 repository {
                     type.set("git")
-                    url.set("https://github.com/zawadz88/AnalyticsEventGeneratorSamples.git")
+                    url.set("https://github.com/zawadz88/AnalyticsEventGeneratorSample-SharedLibrary.git")
                 }
             }
         }
