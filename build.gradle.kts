@@ -65,7 +65,7 @@ kotlin {
         ios.deploymentTarget = "16.0"
         license = "MIT"
         source =
-            "{ :git => 'https://github.com/zawadz88/AnalyticsEventGeneratorSample-SharedLibrary.git', :tag => '$version' }"
+            "{ :git => 'git@github.com:zawadz88/AnalyticsEventGeneratorSample-SharedLibrary.git', :tag => '$version' }"
         framework {
             baseName = "SharedAnalyticsLibrary"
             isStatic = true
