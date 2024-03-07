@@ -63,6 +63,8 @@ kotlin {
         homepage = "https://github.com/zawadz88/AnalyticsEventGeneratorSample-SharedLibrary"
         version = libs.versions.sharedAnalyticsLibrary.get()
         ios.deploymentTarget = "16.0"
+        source =
+            "{ :git => 'https://github.com/zawadz88/AnalyticsEventGeneratorSample-SharedLibrary.git', :tag => '$version' }"
         framework {
             baseName = "SharedAnalyticsLibrary"
             isStatic = true
