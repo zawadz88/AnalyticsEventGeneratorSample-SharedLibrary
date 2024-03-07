@@ -3,17 +3,30 @@
         {
             "type": "gradle",
             "name": "Gradle clean",
-            "tasks": [ "clean" ],
+            "tasks": [
+                "clean"
+            ],
         },
         {
             "type": "gradle",
             "name": "Gradle assemble",
-            "tasks": [ "assemble" ],
+            "tasks": [
+                "assemble"
+            ],
+        },
+        {
+            "type": "gradle",
+            "name": "Gradle publish",
+            "tasks": [
+                "publish"
+            ],
         },
         {
             "type": "gradle",
             "name": "Gradle podInstall",
-            "tasks": [ "podInstall" ],
+            "tasks": [
+                "podInstall"
+            ],
         }
     ]
 }
