@@ -1,8 +1,0 @@
-framework module SharedAnalyticsLibrary {
-    umbrella header "SharedAnalyticsLibrary.h"
-
-    export *
-    module * { export * }
-
-    use Foundation
-}

@@ -3,6 +3,7 @@ sharedAnalyticsLibrary = "1.0.0"
 
 agp = "8.2.0"
 npmPublish = "3.4.2"
+kmmBridge = "0.5.1"
 eventPlugin = "0.1"
 kotlin = "1.9.21"
 kotlinCoroutines = "1.8.0"
@@ -36,8 +37,8 @@ junit4 = { module = "junit:junit", version.ref = "junit4" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 npmPublish = { id = "dev.petuska.npm.publish", version.ref = "npmPublish" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kmmBridge = { id = "co.touchlab.kmmbridge", version.ref = "kmmBridge" }
 
 eventGenerator = { id = "dev.zawadzki.analyticseventgenerator", version.ref = "eventPlugin" }

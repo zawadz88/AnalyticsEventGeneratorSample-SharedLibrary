@@ -16,12 +16,11 @@ version = libs.versions.sharedAnalyticsLibrary.get()
 plugins {
     alias(libs.plugins.npmPublish)
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.eventGenerator)
     `maven-publish`
-    // TODO: configure publishing for Cocoapods to Github
+    alias(libs.plugins.kmmBridge)
 }
 
 val analyticsExtension = the<AnalyticsExtension>().apply {
@@ -54,19 +53,12 @@ kotlin {
         generateTypeScriptDefinitions()
     }
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
-    cocoapods {
-        summary = "An example of using a shared library for analytics"
-        homepage = "https://github.com/zawadz88/AnalyticsEventGeneratorSample-SharedLibrary"
-        version = libs.versions.sharedAnalyticsLibrary.get()
-        ios.deploymentTarget = "16.0"
-        license = "MIT"
-        source =
-            "{ :git => 'git@github.com:zawadz88/AnalyticsEventGeneratorSample-SharedLibrary.git', :tag => '$version' }"
-        framework {
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
             baseName = "SharedAnalyticsLibrary"
             isStatic = true
         }
@@ -102,6 +94,12 @@ kotlin {
             }
         }
     }
+}
+
+kmmbridge {
+    mavenPublishArtifacts()
+    manualVersions()
+    spm()
 }
 
 android {
