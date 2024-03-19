@@ -99,7 +99,7 @@ kotlin {
 kmmbridge {
     mavenPublishArtifacts()
     manualVersions()
-    spm()
+    spm(spmDirectory = ".")
 }
 
 android {
