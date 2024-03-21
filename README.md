@@ -17,4 +17,4 @@ To publish to Github Packages execute:
 
 - `./gradlew publish` (make sure you provided Personal Github tokens in `gradle.properties` file)
 
-For iOS, make sure to create a Git tag and push it - SPM will look at tags in XCode.
+Make sure to create a Git tag and push it - SPM will look at tags in XCode.
