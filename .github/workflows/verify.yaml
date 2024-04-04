@@ -1,0 +1,47 @@
+name: Verify
+
+on: [ pull_request ]
+env:
+  XCODE_VERSION: '15.0.1'
+  JAVA_VERSION: '17'
+
+jobs:
+  build:
+    runs-on: macOS-13
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Setup XCode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: |
+            8
+            ${{ env.JAVA_VERSION }}
+          distribution: "zulu"
+      - name: Cache build tooling
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan
+          key: ${{ runner.os }}-v4-${{ hashFiles('*.gradle.kts') }}
+      - name: Set Github credentials
+        run: |
+          cat << EOF >> gradle.properties
+          githubUsername=$GITHUB_USERNAME
+          githubPassword=$GITHUB_TOKEN
+          EOF
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+          GITHUB_USERNAME: ${{ github.actor }}      
+      - name: Build Plugin & Runtime
+        run: |
+          ./gradlew -version --no-daemon
+          ./gradlew check publishToMavenLocal --no-daemon --stacktrace
+        env:
+          GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"

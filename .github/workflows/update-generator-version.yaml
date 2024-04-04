@@ -1,4 +1,4 @@
-name: UpdateGeneratorVersion
+name: Update Generator library version
 
 on:
   workflow_dispatch:
@@ -10,16 +10,33 @@ on:
 permissions:
   contents: write
 
+env:
+  XCODE_VERSION: '15.0.1'
+  JAVA_VERSION: '17'
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  open-cr:
+    runs-on: macOS-13
     steps:
       - name: checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Open PR
-        uses: actions/github-script@v7
+      - name: Change to temporary branch
+        run: |
+          git checkout -b "feature/plugin-bump-to-${{ inputs.new-version }}"
+      - name: Update plugin version in SharedLibrary
+        uses: MathieuSoysal/replace-string-in-file@v1.1.0
         with:
-          script: |
-            console.log(context)
+          file: gradle/libs.versions.toml
+          old-string: 'eventPlugin = ".*"'
+          new-string: 'eventPlugin = "{{ inputs.new-version }}"'
+      - name: Git commit and push
+        run: |
+          git add gradle/libs.versions.toml
+          git commit -m "[CI] Version bump to ${{ inputs.new-version }}"
+          git push
+      - name: Create PR for SharedLibrary
+        run: gh pr create -B feature/plugin-bump-to-${{ inputs.new-version }} -H main --title 'Update plugin version to ${{ inputs.new-version }}' --body 'Created by Github action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

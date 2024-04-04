@@ -110,18 +110,16 @@ android {
     }
 }
 
-val publishingRepository: String? by project
-publishingRepository?.let {
-    publishing {
-        repositories {
-            maven {
-                name = "publishing"
-                url = uri("https://maven.pkg.github.com/$it")
-                credentials(PasswordCredentials::class)
-            }
+publishing {
+    repositories {
+        maven {
+            name = "publishing"
+            url = uri("https://maven.pkg.github.com/zawadz88/AnalyticsEventGeneratorSample-SharedLibrary")
+            credentials(PasswordCredentials::class)
         }
     }
 }
+
 
 npmPublish {
     organization.set("zawadz88")

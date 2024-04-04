@@ -21,11 +21,6 @@ dependencyResolutionManagement {
             name = "github"
             credentials(PasswordCredentials::class)
         }
-        maven {
-            setUrl("https://maven.pkg.github.com/zawadz88/AnalyticsEventGeneratorSamples")
-            name = "publishing"
-            credentials(PasswordCredentials::class)
-        }
     }
 }
 
