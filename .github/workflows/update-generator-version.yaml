@@ -28,6 +28,7 @@ jobs:
       - name: Update plugin version in SharedLibrary
         uses: MathieuSoysal/replace-string-in-file@v1.1.0
         with:
+          without-checkout: true
           file: gradle/libs.versions.toml
           old-string: 'eventPlugin = ".*"'
           new-string: 'eventPlugin = "{{ inputs.new-version }}"'
