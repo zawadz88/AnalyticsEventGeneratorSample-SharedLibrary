@@ -38,6 +38,6 @@ jobs:
           git commit -m "[CI] Version bump to ${{ inputs.new-version }}"
           git push --set-upstream origin "feature/plugin-bump-to-${{ inputs.new-version }}"
       - name: Create PR for SharedLibrary
-        run: gh pr create -B feature/plugin-bump-to-${{ inputs.new-version }} -H main --title 'Update plugin version to ${{ inputs.new-version }}' --body 'Created by Github action'
+        run: gh pr create -B main --title 'Update plugin version to ${{ inputs.new-version }}' --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
