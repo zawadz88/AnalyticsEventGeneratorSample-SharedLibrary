@@ -16,7 +16,7 @@ env:
 
 jobs:
   open-cr:
-    runs-on: macOS-13
+    runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v4
