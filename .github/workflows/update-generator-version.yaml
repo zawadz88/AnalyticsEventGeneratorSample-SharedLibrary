@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 env:
   XCODE_VERSION: '15.0.1'
@@ -40,4 +41,4 @@ jobs:
       - name: Create PR for SharedLibrary
         run: gh pr create -B main --title 'Update plugin version to ${{ inputs.new-version }}' --body 'Created by Github action'
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
