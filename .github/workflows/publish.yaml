@@ -1,0 +1,96 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  XCODE_VERSION: '15.0.1'
+  JAVA_VERSION: '17'
+
+jobs:
+  publish:
+    runs-on: macOS-13
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Setup XCode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: |
+            8
+            ${{ env.JAVA_VERSION }}
+          distribution: "zulu"
+      - name: Cache build tooling
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan
+          key: ${{ runner.os }}-v4-${{ hashFiles('*.gradle.kts') }}
+      - name: Finalize library version
+        id: version
+        run: |
+          sed -i '' 's/sharedAnalyticsLibrary = "\(.*\)-SNAPSHOT"/sharedAnalyticsLibrary = "\1"/g' gradle/libs.versions.toml
+          final_version=$(sed -n 's/sharedAnalyticsLibrary = "\(.*\)"/\1/p' gradle/libs.versions.toml)
+          echo "final-version=$final_version" >> "${GITHUB_OUTPUT}"
+      - name: Git commit & tag final version
+        run: |
+          git add gradle/libs.versions.toml
+          git commit -m "[CI] Publish version ${{ steps.version.outputs.final-version }}"
+          git tag ${{ steps.version.outputs.final-version }}
+      - name: Set Github credentials for publishing artifacts
+        run: |
+          cat << EOF >> gradle.properties
+          githubUsername=$GITHUB_USERNAME
+          publishingUsername=$GITHUB_USERNAME
+          githubPassword=$GITHUB_TOKEN
+          publishingPassword=$GITHUB_TOKEN
+          npm.publish.registry.github.authToken=$GITHUB_TOKEN
+          EOF
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+          GITHUB_USERNAME: ${{ github.actor }}
+      - name: Build & publish Library
+        run: |
+          ./gradlew -version --no-daemon
+          ./gradlew check publishToMavenLocal --no-daemon --stacktrace
+
+          ./gradlew publish --no-daemon --stacktrace
+        env:
+          GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
+      - name: Update library version with next SNAPSHOT
+        run: |
+          major=0; minor=0; patch=0;
+
+          # break down the version number into it's components
+          regex="^v?([0-9]+).([0-9]+).([0-9]+)$"
+          if [[ ${{ steps.version.outputs.final-version }} =~ $regex ]]; then
+            major="${BASH_REMATCH[1]}"
+            minor="${BASH_REMATCH[2]}"
+            patch="${BASH_REMATCH[3]}"
+          else
+            echo "previous version '${{ steps.version.outputs.final-version }}' is not a semantic version"
+            exit 1
+          fi
+          patch="$((++patch))-SNAPSHOT"
+
+          next_version="${major}.${minor}.${patch}"
+          echo "created next-version: $next_version"
+          sed -i '' 's/sharedAnalyticsLibrary = "\(.*\)"/sharedAnalyticsLibrary = "$next_version"/g' gradle/libs.versions.toml
+
+          echo "next-version=$next_version" >> $GITHUB_OUTPUT
+      - name: Git commit SNAPSHOT version
+        run: |
+          git add gradle/libs.versions.toml
+          git commit -m "[CI] Prepare version ${{ steps.version.outputs.next-version }}"
+      - name: Git push SNAPSHOT version
+        run: |
+          git push
+          git push --tags
