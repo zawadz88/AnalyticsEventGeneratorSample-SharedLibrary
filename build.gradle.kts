@@ -120,7 +120,6 @@ publishing {
     }
 }
 
-
 npmPublish {
     organization.set("zawadz88")
     packages {
