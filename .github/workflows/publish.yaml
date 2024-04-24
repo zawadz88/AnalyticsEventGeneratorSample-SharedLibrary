@@ -54,6 +54,7 @@ jobs:
           publishingPassword=$GITHUB_TOKEN
           npm.publish.registry.github.authToken=$GITHUB_TOKEN
           EOF
+          echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> ~/.npmrc 
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
           GITHUB_USERNAME: ${{ github.actor }}
