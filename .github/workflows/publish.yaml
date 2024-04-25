@@ -59,25 +59,34 @@ jobs:
           npm.publish.registry.github.authToken=$GITHUB_TOKEN
           EOF
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
           GITHUB_USERNAME: ${{ github.actor }}
-      - name: Set NPM
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> ~/.npmrc
-          cat ~/.npmrc
-          node --version
-          npm config ls -l
-          npm config set loglevel verbose
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_USERNAME: ${{ github.actor }}
+#      - name: Set NPM
+#        run: |
+#          echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> ~/.npmrc
+#          cat ~/.npmrc
+#          node --version
+#          npm config ls -l
+#          npm config set loglevel verbose
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+#          GITHUB_USERNAME: ${{ github.actor }}
       - name: Build & publish Library
         run: |
           ./gradlew assembleJsPackage --no-daemon --stacktrace
 
-          ./gradlew publishJsPackageToGithubRegistry --no-daemon --stacktrace --info
+#          ./gradlew publishJsPackageToGithubRegistry --no-daemon --stacktrace --info
         env:
           GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://npm.pkg.github.com'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@zawadz88'
+      - run: npm publish build/packages/js
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Dump NPM logs
         if: ${{ failure() }}
         run: |
