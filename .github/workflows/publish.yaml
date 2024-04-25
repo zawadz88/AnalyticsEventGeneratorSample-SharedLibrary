@@ -13,6 +13,9 @@ jobs:
   publish:
 #    runs-on: macOS-13
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -62,6 +65,7 @@ jobs:
         run: |
           echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> ~/.npmrc
           cat ~/.npmrc
+          node --version
           npm config ls -l
           npm config set loglevel verbose
         env:
