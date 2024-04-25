@@ -63,9 +63,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
           GITHUB_USERNAME: ${{ github.actor }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
       - name: Build & publish Library
         run: |
           ./gradlew -version --no-daemon
@@ -74,6 +71,10 @@ jobs:
           ./gradlew publish --no-daemon --stacktrace
         env:
           GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
+      - name: Dump NPM logs
+        if: ${{ failure() }}
+        run: |
+          cat /Users/runner/.npm/_logs/*
       - name: Update library version with next SNAPSHOT
         run: |
           major=0; minor=0; patch=0;
