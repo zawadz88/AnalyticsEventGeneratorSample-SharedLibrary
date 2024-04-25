@@ -59,7 +59,7 @@ jobs:
           npm.publish.registry.github.authToken=$GITHUB_TOKEN
           EOF
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_USERNAME: ${{ github.actor }}
       - name: Set NPM
         run: |
@@ -69,7 +69,7 @@ jobs:
           npm config ls -l
           npm config set loglevel verbose
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_USERNAME: ${{ github.actor }}
       - name: Build & publish Library
         run: |
