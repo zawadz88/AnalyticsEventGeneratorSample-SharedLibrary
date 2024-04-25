@@ -62,12 +62,13 @@ jobs:
         run: |
           echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> ~/.npmrc
           cat ~/.npmrc
+          npm config ls -l
+          npm config set loglevel verbose
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
           GITHUB_USERNAME: ${{ github.actor }}
       - name: Build & publish Library
         run: |
-          ./gradlew -version --no-daemon
           ./gradlew assembleJsPackage --no-daemon --stacktrace
 
           ./gradlew publishJsPackageToGithubRegistry --no-daemon --stacktrace --info
