@@ -60,15 +60,16 @@ jobs:
       - name: Set NPM
         run: |
           echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> ~/.npmrc
+          cat ~/.npmrc
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
           GITHUB_USERNAME: ${{ github.actor }}
       - name: Build & publish Library
         run: |
           ./gradlew -version --no-daemon
-          ./gradlew check publishToMavenLocal --no-daemon --stacktrace
+          ./gradlew assembleJsPackage --no-daemon --stacktrace
 
-          ./gradlew publish --no-daemon --stacktrace
+          ./gradlew publishJsPackageToGithubRegistry --no-daemon --stacktrace --info
         env:
           GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
       - name: Dump NPM logs

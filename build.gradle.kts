@@ -130,7 +130,7 @@ npmPublish {
                 }
                 repository {
                     type.set("git")
-                    url.set("https://github.com/zawadz88/AnalyticsEventGeneratorSample-SharedLibrary.git")
+                    url.set("https://github.com/zawadz88/AnalyticsEventGeneratorSample-SharedLibrary")
                 }
             }
         }
