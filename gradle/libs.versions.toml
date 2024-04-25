@@ -1,5 +1,5 @@
 [versions]
-sharedAnalyticsLibrary = "1.0.8-SNAPSHOT"
+sharedAnalyticsLibrary = "1.0.9-SNAPSHOT"
 
 agp = "8.2.0"
 npmPublish = "3.4.2"
