@@ -61,16 +61,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
           GITHUB_USERNAME: ${{ github.actor }}
-#      - name: Set NPM
-#        run: |
-#          echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> ~/.npmrc
-#          cat ~/.npmrc
-#          node --version
-#          npm config ls -l
-#          npm config set loglevel verbose
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
-#          GITHUB_USERNAME: ${{ github.actor }}
+      - name: Set NPM
+        run: |
+          cat << EOF >> ~/.npmrc
+          //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN
+          @zawadz88:registry=https://npm.pkg.github.com
+          always-auth=true
+          EOF
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
       - name: Build & publish Library
         run: |
           ./gradlew assembleJsPackage --no-daemon --stacktrace
