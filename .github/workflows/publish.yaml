@@ -75,18 +75,18 @@ jobs:
         run: |
           ./gradlew assembleJsPackage --no-daemon --stacktrace
 
-#          ./gradlew publishJsPackageToGithubRegistry --no-daemon --stacktrace --info
+          ./gradlew publishJsPackageToGithubRegistry --no-daemon --stacktrace --info
         env:
           GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          registry-url: 'https://npm.pkg.github.com'
-          # Defaults to the user or organization that owns the workflow file
-          scope: '@zawadz88'
-      - run: npm publish build/packages/js
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - uses: actions/setup-node@v4
+#        with:
+#          node-version: '20.x'
+#          registry-url: 'https://npm.pkg.github.com'
+#          # Defaults to the user or organization that owns the workflow file
+#          scope: '@zawadz88'
+#      - run: npm publish build/packages/js
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Dump NPM logs
         if: ${{ failure() }}
         run: |
