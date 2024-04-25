@@ -54,10 +54,18 @@ jobs:
           publishingPassword=$GITHUB_TOKEN
           npm.publish.registry.github.authToken=$GITHUB_TOKEN
           EOF
-          echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> ~/.npmrc 
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
           GITHUB_USERNAME: ${{ github.actor }}
+      - name: Set NPM
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> ~/.npmrc
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+          GITHUB_USERNAME: ${{ github.actor }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Build & publish Library
         run: |
           ./gradlew -version --no-daemon
