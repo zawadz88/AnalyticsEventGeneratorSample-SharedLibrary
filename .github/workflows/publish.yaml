@@ -91,7 +91,7 @@ jobs:
 
           next_version="${major}.${minor}.${patch}"
           echo "created next-version: $next_version"
-          sed -i '' 's/sharedAnalyticsLibrary = "\(.*\)"/sharedAnalyticsLibrary = "$next_version"/g' gradle/libs.versions.toml
+          sed -i '' 's/sharedAnalyticsLibrary = "\(.*\)"/sharedAnalyticsLibrary = "${next_version}"/g' gradle/libs.versions.toml
 
           echo "next-version=$next_version" >> $GITHUB_OUTPUT
       - name: Git commit SNAPSHOT version
