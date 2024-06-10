@@ -1,10 +1,9 @@
 // swift-tools-version:5.3
-
 import PackageDescription
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK (do not edit)
-let remoteKotlinUrl = "https://maven.pkg.github.com/zawadz88/AnalyticsEventGeneratorSample-SharedLibrary/dev/zawadzki/sharedanalyticslibrary/shared-analytics-library-kmmbridge/1.0.0/shared-analytics-library-kmmbridge-1.0.0.zip"
-let remoteKotlinChecksum = "8a55a6cdbfebae10f9d99395874d57b259959b2ec811a1bba13913fdc36e83ee"
+let remoteKotlinUrl = "https://maven.pkg.github.com/zawadz88/AnalyticsEventGeneratorSample-SharedLibrary/dev/zawadzki/sharedanalyticslibrary/shared-analytics-library-kmmbridge/1.0.10/shared-analytics-library-kmmbridge-1.0.10.zip"
+let remoteKotlinChecksum = "84d7d828504bdb34f466f4bd2736fecc2c0386406a00e8d09613fea283906c4e"
 let packageName = "SharedAnalyticsLibrary"
 // END KMMBRIDGE BLOCK
 
