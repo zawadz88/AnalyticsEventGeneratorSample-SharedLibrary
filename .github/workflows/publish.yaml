@@ -40,11 +40,6 @@ jobs:
           sed -i '' 's/sharedAnalyticsLibrary = "\(.*\)-SNAPSHOT"/sharedAnalyticsLibrary = "\1"/g' gradle/libs.versions.toml
           final_version=$(sed -n 's/sharedAnalyticsLibrary = "\(.*\)"/\1/p' gradle/libs.versions.toml)
           echo "final-version=$final_version" >> "${GITHUB_OUTPUT}"
-      - name: Git commit & tag final version
-        run: |
-          git add gradle/libs.versions.toml
-          git commit -m "[CI] Publish version ${{ steps.version.outputs.final-version }}"
-          git tag ${{ steps.version.outputs.final-version }}
       - name: Set Github credentials for publishing artifacts
         run: |
           cat << EOF >> gradle.properties
@@ -72,6 +67,12 @@ jobs:
           ./gradlew publish --no-daemon --stacktrace
         env:
           GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
+      - name: Git commit & tag final version
+        run: |
+          git add gradle/libs.versions.toml
+          git add Package.swift
+          git commit -m "[CI] Publish version ${{ steps.version.outputs.final-version }}"
+          git tag ${{ steps.version.outputs.final-version }}
       - name: Update library version with next SNAPSHOT
         run: |
           major=0; minor=0; patch=0;
